@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a9c322a12d0c4e3b97c3ab78891b52e5" Name="Diagram1" ZoomLevel="81">
+        <EntityTypeShape EntityType="HouseCaseModel.Announcement" Width="1.5" PointX="5.25" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HouseCaseModel.Issue" Width="1.5" PointX="7.5" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HouseCaseModel.Location" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HouseCaseModel.Person" Width="1.5" PointX="3" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HouseCaseModel.Solution" Width="1.5" PointX="9.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HouseCaseModel.Status" Width="1.5" PointX="5.25" PointY="5.625" IsExpanded="true" />
+        <AssociationConnector Association="HouseCaseModel.fk_Announcement_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="HouseCaseModel.fk_Issue_Announcement" ManuallyRouted="false" />
+        <AssociationConnector Association="HouseCaseModel.fk_Issue_Location" ManuallyRouted="false" />
+        <AssociationConnector Association="HouseCaseModel.fk_Issue_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="HouseCaseModel.fk_Issue_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="HouseCaseModel.fk_Solution_Issue" ManuallyRouted="false" />
+        <AssociationConnector Association="HouseCaseModel.fk_OwnerLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="HouseCaseModel.fk_Solution_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="HouseCaseModel.OwnerLocation" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

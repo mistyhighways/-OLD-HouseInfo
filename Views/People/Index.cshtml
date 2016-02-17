@@ -1,0 +1,69 @@
+﻿@model IEnumerable<HouseCase.Models.Person>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>People</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.firstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.emailAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isAdmin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isMaintenance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.phoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location.locationName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.firstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.emailAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isAdmin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isMaintenance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.phoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location.locationName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.personId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.personId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.personId })
+        </td>
+    </tr>
+}
+
+</table>

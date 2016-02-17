@@ -1,0 +1,64 @@
+﻿@model IEnumerable<HouseCase.Models.Solution>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Solutions</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.solutionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.explanation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.decisionTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.targetSchedule)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Issue.issueName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status.status1)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.solutionName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.explanation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.decisionTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.targetSchedule)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Issue.issueName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status.status1)
+        </td>
+        <td>
+         @*   @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,610 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HouseCaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Announcement">
+          <Key>
+            <PropertyRef Name="announcementId" />
+          </Key>
+          <Property Name="announcementId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="description" Type="varchar(max)" Nullable="false" />
+          <Property Name="publishTime" Type="datetime" Nullable="false" />
+          <Property Name="solutionTargetSchedule" Type="datetime" Nullable="false" />
+          <Property Name="flatNotification" Type="bit" Nullable="false" />
+          <Property Name="announcerID" Type="int" />
+        </EntityType>
+        <EntityType Name="Issue">
+          <Key>
+            <PropertyRef Name="issueID" />
+          </Key>
+          <Property Name="issueID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="issueName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="description" Type="varchar(max)" Nullable="false" />
+          <Property Name="reportingTime" Type="datetime" Nullable="false" />
+          <Property Name="workloadEstimate" Type="decimal" Precision="4" Scale="1" Nullable="false" />
+          <Property Name="costEstimate" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="informerID" Type="int" Nullable="false" />
+          <Property Name="locationID" Type="int" Nullable="false" />
+          <Property Name="statusID" Type="int" Nullable="false" />
+          <Property Name="announcementID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="locationId" />
+          </Key>
+          <Property Name="locationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="locationName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="description" Type="varchar(max)" Nullable="false" />
+          <Property Name="flatNumber" Type="varchar" MaxLength="10" />
+          <Property Name="roomNumber" Type="int" Nullable="false" />
+          <Property Name="door" Type="varchar" MaxLength="19" Nullable="false" />
+          <Property Name="floor" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OwnerLocation">
+          <Key>
+            <PropertyRef Name="ownerId" />
+            <PropertyRef Name="locationId" />
+          </Key>
+          <Property Name="ownerId" Type="int" Nullable="false" />
+          <Property Name="locationId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="personId" />
+          </Key>
+          <Property Name="personId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="locationId" Type="int" Nullable="false" />
+          <Property Name="firstName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="lastName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="emailAddress" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="isAdmin" Type="bit" Nullable="false" />
+          <Property Name="isMaintenance" Type="bit" Nullable="false" />
+          <Property Name="phoneNumber" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Solution">
+          <Key>
+            <PropertyRef Name="issueID" />
+            <PropertyRef Name="statusID" />
+          </Key>
+          <Property Name="solutionName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="explanation" Type="varchar(max)" Nullable="false" />
+          <Property Name="decisionTime" Type="datetime" Nullable="false" />
+          <Property Name="targetSchedule" Type="datetime" Nullable="false" />
+          <Property Name="issueID" Type="int" Nullable="false" />
+          <Property Name="statusID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="statusId" />
+          </Key>
+          <Property Name="statusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="status" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="explanation" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_Announcement_Person">
+          <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+          <End Role="Announcement" Type="Self.Announcement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="personId" />
+            </Principal>
+            <Dependent Role="Announcement">
+              <PropertyRef Name="announcerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Issue_Announcement">
+          <End Role="Announcement" Type="Self.Announcement" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Announcement">
+              <PropertyRef Name="announcementId" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="announcementID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Issue_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationId" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="locationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Issue_Person">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="personId" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="informerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Issue_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="statusId" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="statusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_OwnerLocation">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationId" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="locationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_OwnerLocation_locationId">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="OwnerLocation" Type="Self.OwnerLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationId" />
+            </Principal>
+            <Dependent Role="OwnerLocation">
+              <PropertyRef Name="locationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_OwnerLocation_ownerId">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="OwnerLocation" Type="Self.OwnerLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="personId" />
+            </Principal>
+            <Dependent Role="OwnerLocation">
+              <PropertyRef Name="ownerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Solution_Issue">
+          <End Role="Issue" Type="Self.Issue" Multiplicity="1" />
+          <End Role="Solution" Type="Self.Solution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="issueID" />
+            </Principal>
+            <Dependent Role="Solution">
+              <PropertyRef Name="issueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Solution_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Solution" Type="Self.Solution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="statusId" />
+            </Principal>
+            <Dependent Role="Solution">
+              <PropertyRef Name="statusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HouseCaseModelStoreContainer">
+          <EntitySet Name="Announcement" EntityType="Self.Announcement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Issue" EntityType="Self.Issue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OwnerLocation" EntityType="Self.OwnerLocation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Solution" EntityType="Self.Solution" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_Announcement_Person" Association="Self.fk_Announcement_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Announcement" EntitySet="Announcement" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Issue_Announcement" Association="Self.fk_Issue_Announcement">
+            <End Role="Announcement" EntitySet="Announcement" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Issue_Location" Association="Self.fk_Issue_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Issue_Person" Association="Self.fk_Issue_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Issue_Status" Association="Self.fk_Issue_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="fk_OwnerLocation" Association="Self.fk_OwnerLocation">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+          <AssociationSet Name="fk_OwnerLocation_locationId" Association="Self.fk_OwnerLocation_locationId">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="OwnerLocation" EntitySet="OwnerLocation" />
+          </AssociationSet>
+          <AssociationSet Name="fk_OwnerLocation_ownerId" Association="Self.fk_OwnerLocation_ownerId">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="OwnerLocation" EntitySet="OwnerLocation" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Solution_Issue" Association="Self.fk_Solution_Issue">
+            <End Role="Issue" EntitySet="Issue" />
+            <End Role="Solution" EntitySet="Solution" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Solution_Status" Association="Self.fk_Solution_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Solution" EntitySet="Solution" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HouseCaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Announcement">
+          <Key>
+            <PropertyRef Name="announcementId" />
+          </Key>
+          <Property Name="announcementId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="publishTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="solutionTargetSchedule" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="flatNotification" Type="Boolean" Nullable="false" />
+          <Property Name="announcerID" Type="Int32" />
+          <NavigationProperty Name="Person" Relationship="Self.fk_Announcement_Person" FromRole="Announcement" ToRole="Person" />
+          <NavigationProperty Name="Issues" Relationship="Self.fk_Issue_Announcement" FromRole="Announcement" ToRole="Issue" />
+        </EntityType>
+        <EntityType Name="Issue">
+          <Key>
+            <PropertyRef Name="issueID" />
+          </Key>
+          <Property Name="issueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="issueName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="reportingTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="workloadEstimate" Type="Decimal" Precision="4" Scale="1" Nullable="false" />
+          <Property Name="costEstimate" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="informerID" Type="Int32" Nullable="false" />
+          <Property Name="locationID" Type="Int32" Nullable="false" />
+          <Property Name="statusID" Type="Int32" Nullable="false" />
+          <Property Name="announcementID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Announcement" Relationship="Self.fk_Issue_Announcement" FromRole="Issue" ToRole="Announcement" />
+          <NavigationProperty Name="Location" Relationship="Self.fk_Issue_Location" FromRole="Issue" ToRole="Location" />
+          <NavigationProperty Name="Person" Relationship="Self.fk_Issue_Person" FromRole="Issue" ToRole="Person" />
+          <NavigationProperty Name="Status" Relationship="Self.fk_Issue_Status" FromRole="Issue" ToRole="Status" />
+          <NavigationProperty Name="Solutions" Relationship="Self.fk_Solution_Issue" FromRole="Issue" ToRole="Solution" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="locationId" />
+          </Key>
+          <Property Name="locationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="locationName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="flatNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="roomNumber" Type="Int32" Nullable="false" />
+          <Property Name="door" Type="String" MaxLength="19" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="floor" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Issues" Relationship="Self.fk_Issue_Location" FromRole="Location" ToRole="Issue" />
+          <NavigationProperty Name="People" Relationship="Self.fk_OwnerLocation" FromRole="Location" ToRole="Person" />
+          <NavigationProperty Name="People1" Relationship="Self.OwnerLocation" FromRole="Location" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="personId" />
+          </Key>
+          <Property Name="personId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="locationId" Type="Int32" Nullable="false" />
+          <Property Name="firstName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="emailAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isAdmin" Type="Boolean" Nullable="false" />
+          <Property Name="isMaintenance" Type="Boolean" Nullable="false" />
+          <Property Name="phoneNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Announcements" Relationship="Self.fk_Announcement_Person" FromRole="Person" ToRole="Announcement" />
+          <NavigationProperty Name="Issues" Relationship="Self.fk_Issue_Person" FromRole="Person" ToRole="Issue" />
+          <NavigationProperty Name="Location" Relationship="Self.fk_OwnerLocation" FromRole="Person" ToRole="Location" />
+          <NavigationProperty Name="Locations" Relationship="Self.OwnerLocation" FromRole="Person" ToRole="Location" />
+        </EntityType>
+        <EntityType Name="Solution">
+          <Key>
+            <PropertyRef Name="issueID" />
+            <PropertyRef Name="statusID" />
+          </Key>
+          <Property Name="solutionName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="explanation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="decisionTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="targetSchedule" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="issueID" Type="Int32" Nullable="false" />
+          <Property Name="statusID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Issue" Relationship="Self.fk_Solution_Issue" FromRole="Solution" ToRole="Issue" />
+          <NavigationProperty Name="Status" Relationship="Self.fk_Solution_Status" FromRole="Solution" ToRole="Status" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="statusId" />
+          </Key>
+          <Property Name="statusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="status1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="explanation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Issues" Relationship="Self.fk_Issue_Status" FromRole="Status" ToRole="Issue" />
+          <NavigationProperty Name="Solutions" Relationship="Self.fk_Solution_Status" FromRole="Status" ToRole="Solution" />
+        </EntityType>
+        <Association Name="fk_Announcement_Person">
+          <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+          <End Role="Announcement" Type="Self.Announcement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="personId" />
+            </Principal>
+            <Dependent Role="Announcement">
+              <PropertyRef Name="announcerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Issue_Announcement">
+          <End Role="Announcement" Type="Self.Announcement" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Announcement">
+              <PropertyRef Name="announcementId" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="announcementID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Issue_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationId" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="locationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Issue_Person">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="personId" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="informerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Issue_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="statusId" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="statusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Solution_Issue">
+          <End Role="Issue" Type="Self.Issue" Multiplicity="1" />
+          <End Role="Solution" Type="Self.Solution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="issueID" />
+            </Principal>
+            <Dependent Role="Solution">
+              <PropertyRef Name="issueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_OwnerLocation">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationId" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="locationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Solution_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Solution" Type="Self.Solution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="statusId" />
+            </Principal>
+            <Dependent Role="Solution">
+              <PropertyRef Name="statusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OwnerLocation">
+          <End Role="Location" Type="Self.Location" Multiplicity="*" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="HouseCaseEntities3" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Announcements" EntityType="Self.Announcement" />
+          <EntitySet Name="Issues" EntityType="Self.Issue" />
+          <EntitySet Name="Locations" EntityType="Self.Location" />
+          <EntitySet Name="People" EntityType="Self.Person" />
+          <EntitySet Name="Solutions" EntityType="Self.Solution" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <AssociationSet Name="fk_Announcement_Person" Association="Self.fk_Announcement_Person">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Announcement" EntitySet="Announcements" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Issue_Announcement" Association="Self.fk_Issue_Announcement">
+            <End Role="Announcement" EntitySet="Announcements" />
+            <End Role="Issue" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Issue_Location" Association="Self.fk_Issue_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Issue" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Issue_Person" Association="Self.fk_Issue_Person">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Issue" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Issue_Status" Association="Self.fk_Issue_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Issue" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Solution_Issue" Association="Self.fk_Solution_Issue">
+            <End Role="Issue" EntitySet="Issues" />
+            <End Role="Solution" EntitySet="Solutions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_OwnerLocation" Association="Self.fk_OwnerLocation">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Person" EntitySet="People" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Solution_Status" Association="Self.fk_Solution_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Solution" EntitySet="Solutions" />
+          </AssociationSet>
+          <AssociationSet Name="OwnerLocation" Association="Self.OwnerLocation">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Person" EntitySet="People" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HouseCaseModelStoreContainer" CdmEntityContainer="HouseCaseEntities3">
+          <EntitySetMapping Name="Announcements">
+            <EntityTypeMapping TypeName="HouseCaseModel.Announcement">
+              <MappingFragment StoreEntitySet="Announcement">
+                <ScalarProperty Name="announcementId" ColumnName="announcementId" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="publishTime" ColumnName="publishTime" />
+                <ScalarProperty Name="solutionTargetSchedule" ColumnName="solutionTargetSchedule" />
+                <ScalarProperty Name="flatNotification" ColumnName="flatNotification" />
+                <ScalarProperty Name="announcerID" ColumnName="announcerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Issues">
+            <EntityTypeMapping TypeName="HouseCaseModel.Issue">
+              <MappingFragment StoreEntitySet="Issue">
+                <ScalarProperty Name="issueID" ColumnName="issueID" />
+                <ScalarProperty Name="issueName" ColumnName="issueName" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="reportingTime" ColumnName="reportingTime" />
+                <ScalarProperty Name="workloadEstimate" ColumnName="workloadEstimate" />
+                <ScalarProperty Name="costEstimate" ColumnName="costEstimate" />
+                <ScalarProperty Name="informerID" ColumnName="informerID" />
+                <ScalarProperty Name="locationID" ColumnName="locationID" />
+                <ScalarProperty Name="statusID" ColumnName="statusID" />
+                <ScalarProperty Name="announcementID" ColumnName="announcementID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="HouseCaseModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="locationId" ColumnName="locationId" />
+                <ScalarProperty Name="locationName" ColumnName="locationName" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="flatNumber" ColumnName="flatNumber" />
+                <ScalarProperty Name="roomNumber" ColumnName="roomNumber" />
+                <ScalarProperty Name="door" ColumnName="door" />
+                <ScalarProperty Name="floor" ColumnName="floor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="HouseCaseModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="personId" ColumnName="personId" />
+                <ScalarProperty Name="locationId" ColumnName="locationId" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="emailAddress" ColumnName="emailAddress" />
+                <ScalarProperty Name="isAdmin" ColumnName="isAdmin" />
+                <ScalarProperty Name="isMaintenance" ColumnName="isMaintenance" />
+                <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Solutions">
+            <EntityTypeMapping TypeName="HouseCaseModel.Solution">
+              <MappingFragment StoreEntitySet="Solution">
+                <ScalarProperty Name="solutionName" ColumnName="solutionName" />
+                <ScalarProperty Name="explanation" ColumnName="explanation" />
+                <ScalarProperty Name="decisionTime" ColumnName="decisionTime" />
+                <ScalarProperty Name="targetSchedule" ColumnName="targetSchedule" />
+                <ScalarProperty Name="issueID" ColumnName="issueID" />
+                <ScalarProperty Name="statusID" ColumnName="statusID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="HouseCaseModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="statusId" ColumnName="statusId" />
+                <ScalarProperty Name="status1" ColumnName="status" />
+                <ScalarProperty Name="explanation" ColumnName="explanation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="OwnerLocation" TypeName="HouseCaseModel.OwnerLocation" StoreEntitySet="OwnerLocation">
+            <EndProperty Name="Location">
+              <ScalarProperty Name="locationId" ColumnName="locationId" />
+            </EndProperty>
+            <EndProperty Name="Person">
+              <ScalarProperty Name="personId" ColumnName="ownerId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

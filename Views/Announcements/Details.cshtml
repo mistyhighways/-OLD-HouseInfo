@@ -1,0 +1,66 @@
+﻿@model HouseCase.Models.Announcement
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Announcement</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.publishTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.publishTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.solutionTargetSchedule)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.solutionTargetSchedule)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.flatNotification)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.flatNotification)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Person.firstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Person.firstName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.announcementId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

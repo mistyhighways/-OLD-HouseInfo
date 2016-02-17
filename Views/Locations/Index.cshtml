@@ -1,0 +1,63 @@
+﻿@model IEnumerable<HouseCase.Models.Location>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Locations</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.locationName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.flatNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.roomNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.door)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.floor)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.locationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.flatNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.roomNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.door)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.floor)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.locationId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.locationId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.locationId })
+        </td>
+    </tr>
+}
+
+</table>

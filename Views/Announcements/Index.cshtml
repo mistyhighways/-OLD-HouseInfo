@@ -1,0 +1,78 @@
+﻿
+
+@model IEnumerable<HouseCase.Models.Announcement>
+
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Announcements</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { announcerEmail = User.Identity.Name },null)
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Title
+        </th>
+        <th>
+           Description
+        </th>
+        <th>
+           Publish Time
+        </th>
+        <th>
+           Target Time
+        </th>
+        <th>
+           Flat Notification
+        </th>
+        <th>
+           Announcer
+        </th>
+        <th></th>
+    </tr>
+
+
+
+@foreach (var item in Model) {
+
+   if(User.Identity.Name==item.Person.emailAddress || (User.IsInRole("admin")))
+   {
+
+
+
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.publishTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.solutionTargetSchedule)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.flatNotification)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Person.firstName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.announcementId }) |
+            @if (User.IsInRole("admin") || User.IsInRole("moderator"))
+            {
+            @Html.ActionLink("Create the Issue", "Create", "Issues", new { announcerID = item.announcerID, announcementID = item.announcementId }, null)<p> |</p>
+            }
+
+            @Html.ActionLink("Details", "Details", new { id=item.announcementId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.announcementId })
+        </td>
+    </tr>
+    }
+}
+
+</table>

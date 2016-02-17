@@ -1,0 +1,95 @@
+﻿@model IEnumerable<HouseCase.Models.Issue>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@Scripts.Render("~/scripts/jquery-1.10.2.min.js")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+
+<h2>Issues</h2>
+<div id="divDetails">
+
+</div>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.issueName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.reportingTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.workloadEstimate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.costEstimate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Announcement.title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location.locationName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Person.firstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status.status1)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.issueName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.reportingTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.workloadEstimate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.costEstimate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Announcement.title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location.locationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Person.firstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status.status1)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.issueID }) |
+            @Html.ActionLink("Add Solution", "Create", "Solutions", new { id=item.issueID }, null) |
+            @Html.ActionLink("View Solution", "Details", "Solutions", new { id = item.issueID },null) |
+            @Ajax.ActionLink("Details", "Details", new { id = item.issueID },
+        new AjaxOptions
+        {
+            HttpMethod = "GET",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "divDetails",
+        }
+        ) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.issueID })
+        </td>
+    </tr>
+}
+
+</table>

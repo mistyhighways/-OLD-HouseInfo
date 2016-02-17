@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HouseCaseModelStoreContainer" CdmEntityContainer="HouseCaseEntities2">
+    <EntitySetMapping Name="Announcements">
+      <EntityTypeMapping TypeName="HouseCaseModel.Announcement">
+        <MappingFragment StoreEntitySet="Announcement">
+          <ScalarProperty Name="announcementId" ColumnName="announcementId" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="publishTime" ColumnName="publishTime" />
+          <ScalarProperty Name="solutionTargetSchedule" ColumnName="solutionTargetSchedule" />
+          <ScalarProperty Name="flatNotification" ColumnName="flatNotification" />
+          <ScalarProperty Name="issueID" ColumnName="issueID" />
+          <ScalarProperty Name="announcerID" ColumnName="announcerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Issues">
+      <EntityTypeMapping TypeName="HouseCaseModel.Issue">
+        <MappingFragment StoreEntitySet="Issue">
+          <ScalarProperty Name="issueID" ColumnName="issueID" />
+          <ScalarProperty Name="issueName" ColumnName="issueName" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="reportingTime" ColumnName="reportingTime" />
+          <ScalarProperty Name="workloadEstimate" ColumnName="workloadEstimate" />
+          <ScalarProperty Name="costEstimate" ColumnName="costEstimate" />
+          <ScalarProperty Name="informerID" ColumnName="informerID" />
+          <ScalarProperty Name="locationID" ColumnName="locationID" />
+          <ScalarProperty Name="statusID" ColumnName="statusID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Locations">
+      <EntityTypeMapping TypeName="HouseCaseModel.Location">
+        <MappingFragment StoreEntitySet="Location">
+          <ScalarProperty Name="locationId" ColumnName="locationId" />
+          <ScalarProperty Name="locationName" ColumnName="locationName" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="flatNumber" ColumnName="flatNumber" />
+          <ScalarProperty Name="roomNumber" ColumnName="roomNumber" />
+          <ScalarProperty Name="door" ColumnName="door" />
+          <ScalarProperty Name="floor" ColumnName="floor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="People">
+      <EntityTypeMapping TypeName="HouseCaseModel.Person">
+        <MappingFragment StoreEntitySet="Person">
+          <ScalarProperty Name="personId" ColumnName="personId" />
+          <ScalarProperty Name="locationId" ColumnName="locationId" />
+          <ScalarProperty Name="firstName" ColumnName="firstName" />
+          <ScalarProperty Name="lastName" ColumnName="lastName" />
+          <ScalarProperty Name="emailAddress" ColumnName="emailAddress" />
+          <ScalarProperty Name="isAdmin" ColumnName="isAdmin" />
+          <ScalarProperty Name="isMaintenance" ColumnName="isMaintenance" />
+          <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Solutions">
+      <EntityTypeMapping TypeName="HouseCaseModel.Solution">
+        <MappingFragment StoreEntitySet="Solution">
+          <ScalarProperty Name="solutionName" ColumnName="solutionName" />
+          <ScalarProperty Name="explanation" ColumnName="explanation" />
+          <ScalarProperty Name="decisionTime" ColumnName="decisionTime" />
+          <ScalarProperty Name="targetSchedule" ColumnName="targetSchedule" />
+          <ScalarProperty Name="issueID" ColumnName="issueID" />
+          <ScalarProperty Name="statusID" ColumnName="statusID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Status">
+      <EntityTypeMapping TypeName="HouseCaseModel.Status">
+        <MappingFragment StoreEntitySet="Status">
+          <ScalarProperty Name="statusId" ColumnName="statusId" />
+          <ScalarProperty Name="status1" ColumnName="status" />
+          <ScalarProperty Name="explanation" ColumnName="explanation" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="OwnerLocation" TypeName="HouseCaseModel.OwnerLocation" StoreEntitySet="OwnerLocation">
+      <EndProperty Name="Location">
+        <ScalarProperty Name="locationId" ColumnName="locationId" />
+      </EndProperty>
+      <EndProperty Name="Person">
+        <ScalarProperty Name="personId" ColumnName="ownerId" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

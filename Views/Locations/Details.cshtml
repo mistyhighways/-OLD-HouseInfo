@@ -1,0 +1,66 @@
+﻿@model HouseCase.Models.Location
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Location</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.locationName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.locationName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.flatNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.flatNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.roomNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.roomNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.door)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.door)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.floor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.floor)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.locationId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
